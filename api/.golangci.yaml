@@ -1,0 +1,68 @@
+version: "2"
+
+run:
+  timeout: 5m
+  tests: true
+  modules-download-mode: readonly
+
+formatters:
+  enable:
+    - gofumpt
+    - goimports
+  settings:
+    goimports:
+      local-prefixes:
+        - github.com/ilindan-dev/event-calendar
+
+linters:
+  default: none
+  
+  enable:
+    - errcheck
+    - govet
+    - staticcheck
+    - typecheck
+    - unused
+    - ineffassign
+
+    - bodyclose
+    - sqlclosecheck
+    - rowserrcheck
+    - copyloopvar
+    - makezero
+    - prealloc
+
+    - gosec
+    - gocritic
+    - errorlint
+    - niler
+    - nilnil
+    - revive
+    - nestif
+
+  settings:
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
+    
+    revive:
+      enable-default-rules: true
+      rules:
+        - name: exported
+          disabled: true
+
+  exclusions:
+    generated: lax
+    rules:
+      - path: _test\.go
+        linters:
+          - errcheck
+          - gosec
+          - bodyclose
+          - prealloc
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
