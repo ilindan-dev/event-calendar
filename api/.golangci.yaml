@@ -21,7 +21,6 @@ linters:
     - errcheck
     - govet
     - staticcheck
-    - typecheck
     - unused
     - ineffassign
 
@@ -35,7 +34,7 @@ linters:
     - gosec
     - gocritic
     - errorlint
-    - niler
+    - nilerr
     - nilnil
     - revive
     - nestif
@@ -51,6 +50,8 @@ linters:
       enable-default-rules: true
       rules:
         - name: exported
+          disabled: true
+        - name: package-comments
           disabled: true
 
   exclusions:
