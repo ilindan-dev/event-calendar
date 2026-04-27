@@ -1,0 +1,80 @@
+syntax = "proto3";
+
+package calendar;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/ilindan-dev/event-calendar/calendar-service";
+
+service CalendarService {
+  rpc CreateEvent(CreateEventRequest) returns (CreateEventResponse);
+  rpc UpdateEvent(UpdateEventRequest) returns (google.protobuf.Empty);
+  rpc DeleteEvent(DeleteEventRequest) returns (google.protobuf.Empty);
+
+  rpc GetEventsDay(GetEventsDayRequest) returns (GetEventsDayResponse);
+  rpc GetEventsWeek(GetEventsWeekRequest) returns (GetEventsWeekResponse);
+  rpc GetEventsMonth(GetEventsMonthRequest) returns (GetEventsMonthResponse);
+}
+
+message Event {
+  string event_id = 1;
+  string title = 2;
+  string text = 3;
+  string user_id = 4;
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+}
+
+message CreateEventRequest {
+  string title = 1;
+  string text = 2;
+  string user_id = 3;
+  google.protobuf.Timestamp start_time = 4;
+  google.protobuf.Timestamp end_time = 5;
+}
+
+message CreateEventResponse {
+  string event_id = 1;
+}
+
+message UpdateEventRequest {
+  string event_id = 1;
+  string title = 2;
+  string text = 3;
+  string user_id = 4;
+  google.protobuf.Timestamp start_time = 5;
+  google.protobuf.Timestamp end_time = 6;
+}
+
+message DeleteEventRequest {
+  string event_id = 1;
+  string user_id = 2;
+}
+
+message GetEventsDayRequest {
+  string user_id = 1;
+  google.protobuf.Timestamp date = 2;
+}
+
+message GetEventsDayResponse {
+  repeated Event events = 1;
+}
+
+message GetEventsWeekRequest {
+  string user_id = 1;
+  google.protobuf.Timestamp start_of_week = 2;
+}
+
+message GetEventsWeekResponse {
+  repeated Event events = 1;
+}
+
+message GetEventsMonthRequest {
+  string user_id = 1;
+  google.protobuf.Timestamp start_of_month = 2;
+}
+
+message GetEventsMonthResponse {
+  repeated Event events = 1;
+}
