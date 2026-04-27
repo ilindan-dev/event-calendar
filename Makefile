@@ -11,7 +11,7 @@ install-tools:
 	go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 	go install github.com/pressly/goose/v3/cmd/goose@latest
 	@echo "checking protobuf compiler, if it fails follow guide at https://protobuf.dev/installation/"
-	@which -s protoc && echo OK || exit 1
+	@command -v protoc >/dev/null 2>&1 && echo "protoc is installed" || (echo "ERROR: protoc is missing!" && exit 1)
 	@echo "Tools installed successfully!"
 
 protolint:
