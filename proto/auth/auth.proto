@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "github.com/ilindan-dev/event-calendar/auth-service";
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+  ROLE_USER = 1;
+  ROLE_ADMIN = 2;
+}
+
+service AuthService {
+  rpc Login(LoginRequest) returns (LoginResponse);
+  rpc Validate(ValidateRequest) returns (ValidateResponse);
+  rpc Refresh(RefreshRequest) returns (RefreshResponse);
+}
+
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+  string app_id = 3;
+}
+
+message LoginResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}
+
+message ValidateRequest {
+  string access_token = 1;
+}
+
+message ValidateResponse {
+  string user_id = 1;
+  Role role = 2;
+}
+
+message RefreshRequest {
+  string refresh_token = 1;
+}
+
+message RefreshResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+}

@@ -1,4 +1,42 @@
-name: event-calendar.yml
+name: Event Calendar CI
+
 on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
+  lint-and-test:
+    name: Lint and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+          cache: true
+
+      - name: Install custom golangci-lint (v2.11.4)
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v2.11.4
+
+      - name: Install Protobuf Compiler (protoc)
+        run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+
+      - name: Install dependencies and tools
+        run: make install-tools
+
+      - name: Run Linters
+        run: make lint
+
+      - name: Run Tests
+        run: make test
